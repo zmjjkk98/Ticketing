@@ -14,18 +14,31 @@ export class UserService {
     private readonly jwtService: JwtService,
   ){}
 
-  async register(email: string, password: string){
+  async register(email: string, password: string, nickname:string){
     const existingUser = await this.findByEmail(email);
     if(existingUser){
       throw new ConflictException(
         '이미 해당 이메일로 가입된 사용자가 있습니다!',
       );
     }
+
+    const existNickname = await this.userRepository.findOne({
+      where: {
+        nickname,
+      }
+    })
+
+    console.log(existNickname)
     
+    if(existNickname){
+      throw new ConflictException('이미 사용중인 닉네임입니다.')
+    }
+
     const hashedPassword = await hash(password, 10);
     await this.userRepository.save({
       email,
       password: hashedPassword,
+      nickname
     });
   }
 
@@ -42,6 +55,7 @@ export class UserService {
     if(!(await compare(password, user.password))){
       throw new UnauthorizedException('비밀번호를 확인해주세요.');
     }
+
     const payload = {email, sub: user.id};
     return{
       access_token: this.jwtService.sign(payload),

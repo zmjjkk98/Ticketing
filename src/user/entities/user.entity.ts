@@ -1,4 +1,4 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Index('email', ['email'], {unique: true})
 @Entity({
@@ -14,5 +14,16 @@ export class User{
   @Column({type: 'varchar', select:false, nullable: false})
   password: string;
 
+  @Column({type: 'varchar', unique:true, nullable:false})
+  nickname: string;
+
+  @Column({type: 'int', default: 1000000})
+  point: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
 }

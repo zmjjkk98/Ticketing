@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Ticket } from "src/ticketing/entities/ticket.entity";
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Index('email', ['email'], {unique: true})
 @Entity({
@@ -20,10 +21,17 @@ export class User{
   @Column({type: 'int', default: 1000000})
   point: number;
 
+  @Column({type: 'boolean', default: false})
+  is_admin: boolean
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+
+  @OneToMany(()=> Ticket, (ticket)=> ticket.user)
+  ticket:Ticket[]
 
 }

@@ -1,22 +1,20 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Show } from './entities/show.entity';
 import { DataSource, Like, Repository } from 'typeorm';
 import _, { some } from 'lodash';
 import { CreateShowDto } from './dto/create-show.dto';
 import { ShowDate } from './entities/show-date.entity';
-import { Seat } from './entities/seat.entity';
 import { CreateShowDateDto } from './dto/create-showDate.dto';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class ShowService {
   constructor(
     @InjectRepository(Show) private showRepository: Repository<Show>, 
     @InjectRepository(ShowDate) private showDateRepository: Repository<ShowDate>,
-    @InjectRepository(Seat) private seat: Repository<Seat>,
     ){}
 
-  
   async createShow(createShowDto: CreateShowDto, createShowDateDto: CreateShowDateDto){
     const {showTime, openAt, closeAt} = createShowDateDto;
 
@@ -29,9 +27,7 @@ export class ShowService {
       openAt,
       closeAt,
       show:newShow,
-    })
-
-  
+    })  
   }
 
 

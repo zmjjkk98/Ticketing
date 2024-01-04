@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Category } from "./showCategoryTypes";
 import { ShowDate } from "./show-date.entity";
-import { Seat } from "./seat.entity";
+import { Ticket } from "src/ticketing/entities/ticket.entity";
 
 @Entity({
   name: 'show',
@@ -40,7 +40,7 @@ export class Show {
   @OneToMany(()=> ShowDate, (showDate) => showDate.show)
   showDate: ShowDate[]
 
-  @OneToMany(()=> Seat, (seat)=> seat.show)
-  seat:Seat[]
+  @OneToMany(()=> Ticket, (ticket)=> ticket.show)
+  ticket:Ticket
   
 }

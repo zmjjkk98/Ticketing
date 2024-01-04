@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Show } from "./show.entity";
 
 @Entity({
@@ -20,4 +20,5 @@ export class ShowDate {
   @ManyToOne(() => Show, (show) => show.showDate, {cascade: true})
   @JoinColumn({name:"show_id", referencedColumnName:"id"})
   show: Show
+
 }
